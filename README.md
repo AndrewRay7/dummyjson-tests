@@ -15,16 +15,28 @@
 | 5 | GET | `/carts/user/{userId}` | Получение корзин пользователя |
 | 6 | GET | `/carts/{cartId}` | Получение корзины по ID |
 | 7 | POST | `/carts/add` | Создание новой корзины |
-| 8 | PATCH | `/carts/{cartId}` | Обновление корзины |
+| 8 | PUT | `/carts/{cartId}` | Обновление корзины |
 | 9 | DELETE | `/carts/{cartId}` | Удаление корзины |
 | 10 | GET | `/carts/784` | Негативная проверка — несуществующая корзина (ожидается 404) |
 
+### Что проверяется:
+
+1. метод POST | `/auth/login` авторизуемся получаем accessToken, сохраняем его в переменную {{token}} (проверка на присутствие accessToken в ответе и проверка на статус-код 200)
+2. метод POST | `/auth/login` имитируем передачу неверного пароля, (проверка на статус-код 400 Bad Request и на Invalid credentials в ответе)
+3. метод GET  | `/auth/me` получаем текущего авторизованного пользователя c использованием accessToken и заносим его userid в переменную окружения {{userid}} (проверка на статус-код 200 и проверка что в ответе вернулись поля id и поле username = "emilys" )
+4. метод GET | `/user/{userId}` DummyJSON API является публичным поэтому получаем текущего авторизованного пользователя (взят из переменной {{userid}} полученной в 3 методе) без использования accessToken (проверка на статус-код 200 и проверяется что id в ответе соотвтетсвует ожидаемому, так же если переменная {{userid}} задана в окружении, то она стравнивается c id в ответе, а если нет то просто проверяется наличие id в ответе)
+5. GET | `/carts/user/{userId}` Получаем корзину по {{userid}} (из переменной полученной в 3 методе) Проверки на статус-код 200 и на наличие товаров в корзине, что она не пустая. Id корзины заносим в пеерменную {{cartid}} 
+6. GET | `/carts/{cartId}` Получаем корзину по {{cartid}} (Проверки на статус-код 200 и на то что идентификатор корзины id в ответе совпадает с тем значением, которое хранится в переменной окружения {{cartId}})
+7. POST | `/carts/add`  Создаем новую корзину (физически корзина не создается, происходит имитация, особенность тестового DummyJSON API) Проверки на статус-код 200 и проверка что вернул корректный ответ, подтверждающий успешное создание, проверяется наличие идентификатора созданной корзины и его тип данных.
+8. PUT | `/carts/{cartId}` Обновляется корзина по переменной {{cartid}} полученной в 5 методе. Проверки статус-код 200 и что обновлённые данные отразились в ответе totalQuantity изменился.
+9. DELETE | `/carts/{cartId}` Удаление корзины через переменную {{cartid}}. Проверяется статус-код 200 и что ответ содержит признак успешного удаления например в ответе значение isDeleted: true
+10. GET | `/carts/784` | Негативная проверка — запрашиваем несуществующую корзину id = 784, получаем статус-код 404 и провреяем что в ответе возвращается "message": "Cart with id '784' not found"
 
 
 ## Быстрый старт
 
 ### Клонируйте репозиторий
-git clone https://github.com/your-username/dummyjson-tests.git
+git clone https://github.com/AndrewRay7/dummyjson-tests.git
 cd dummyjson-tests
 
 ### Запуск тестов с помощью скиптов
@@ -35,11 +47,8 @@ cd dummyjson-tests
 ### Linux/macOS
 ./scripts/run-tests.sh
 
-### Запуск тестов newman run
-newman run collections/DummyJSON.postman_collection.json \
-  -e environments/DummyJSON.postman_environment.json \
-  --reporters cli,html \
-  --reporter-html-export reports/newman-report.html
+### Запуск тестов newman run (сформируется html отчет в папке reports)
+newman run collections/DummyJSON.postman_collection.json -e environments/DummyJSON.postman_environment.json -r html --reporter-html-export reports/newman-report.html
 
 ### Требования
 - [Node.js](https://nodejs.org/) (версия 20 или выше)
