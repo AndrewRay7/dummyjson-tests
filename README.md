@@ -35,21 +35,6 @@
 
 ## Быстрый старт
 
-### Клонируйте репозиторий
-git clone https://github.com/AndrewRay7/dummyjson-tests.git
-cd dummyjson-tests
-
-### Запуск тестов с помощью скиптов
-
-### Windows
-.\scripts\run-tests.ps1
-
-### Linux/macOS
-./scripts/run-tests.sh
-
-### Запуск тестов newman run (сформируется html отчет в папке reports)
-newman run collections/DummyJSON.postman_collection.json -e environments/DummyJSON.postman_environment.json -r html --reporter-html-export reports/newman-report.html
-
 ### Требования
 - [Node.js](https://nodejs.org/) (версия 20 или выше)
 - [Newman](https://www.npmjs.com/package/newman) — устанавливается глобально
@@ -57,3 +42,20 @@ newman run collections/DummyJSON.postman_collection.json -e environments/DummyJS
 ### Установка Newman
 bash
 npm install -g newman
+npm install -g newman-reporter-html
+
+### Клонируйте репозиторий
+git clone https://github.com/AndrewRay7/dummyjson-tests.git
+cd dummyjson-tests
+
+### Запуск тестов с помощью скиптов (выполнение и отчет в окне терминала)
+
+### Windows
+.\scripts\run-tests.ps1
+
+### Linux/macOS
+./scripts/run-tests.sh
+
+### Запуск тестов с формированием html отчета (сформируется html отчет в папке reports)
+newman run collections/DummyJSON.postman_collection.json -e environments/DummyJSON.postman_environment.json -r html --reporter-html-export reports/newman-report.html
+
