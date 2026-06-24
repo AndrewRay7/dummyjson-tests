@@ -61,11 +61,17 @@ newman run collections/DummyJSON.postman_collection.json -e environments/DummyJS
 
 ## Инструменты которые использовал для задания
 POSTMAN, VScode, JS, NodeJS, Newman, PowerSchell, Linux Ubuntu
+
 Делал авотесты и коллекцию в POSTMAN поэтому выбрал связку JavaScript и Newman
 
 ## Опыт работы
 
-Есть опыт ручного и нагрузочного тестирования, автоматизацией тоже знимался REST API, JSON-RPC (POSTMAN). В тестировании с 2019 года.
-Проекты которыми занимался: торговый портал автозапчастей https://abom.ru сейчас это https://business.lecar.ru/ и второй проект "База знаний" https://db.1bom.ru/
+Есть опыт ручного и нагрузочного тестирования, автоматизацией тоже знимался REST API, JSON-RPC (POSTMAN). 
+
+В тестировании с 2019 года.
+
+Проекты которыми занимался: торговый портал автозапчастей https://abom.ru сейчас это https://business.lecar.ru/ и второй проект "База знаний" https://db.1bom.ru
+
 Инструменты: JIRA, REDMINE, Confluence, Graylog, DbForge, DBeaver, POSTMAN, Apache JMeter, RabbitMQ, VScode, PyCharm, DevTools, Docker, linux, GIT-Lab
+
 Мое резюме на HH: https://nn.hh.ru/resume/fdd0a786ff107c51900039ed1f72374c347a37
