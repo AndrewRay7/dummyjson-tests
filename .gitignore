@@ -1,7 +1,6 @@
 # Node.js dependencies
 node_modules/
 npm-debug.log
-help.txt
 # Postman exports
 # *.postman_collection.json
 # *.postman_environment.json
