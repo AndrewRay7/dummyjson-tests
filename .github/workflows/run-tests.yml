@@ -32,7 +32,7 @@ jobs:
             --reporter-html-export reports/newman-report.html
 
       - name: Upload test report
-        if: always()  # Загружаем отчёт даже при падении тестов
+        if: always()  # Загрузка отчёта даже при падении тестов
         uses: actions/upload-artifact@v4
         with:
           name: newman-report
