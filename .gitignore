@@ -1,0 +1,16 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Postman exports (опционально, если не хотите хранить)
+# *.postman_collection.json
+# *.postman_environment.json
+
+# Reports
+reports/
+*.html
+
+# OS files
+.DS_Store
+Thumbs.db
