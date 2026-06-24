@@ -1,0 +1,39 @@
+name: Run API Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Возможность запуска вручную
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run API tests
+        run: |
+          mkdir -p reports
+          newman run collections/DummyJSON.postman_collection.json \
+            -e environments/DummyJSON.postman_environment.json \
+            --reporters cli,html \
+            --reporter-html-export reports/newman-report.html
+
+      - name: Upload test report
+        if: always()  # Загружаем отчёт даже при падении тестов
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: reports/newman-report.html
