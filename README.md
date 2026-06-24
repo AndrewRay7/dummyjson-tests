@@ -19,23 +19,23 @@
 | 9 | DELETE | `/carts/{cartId}` | Удаление корзины |
 | 10 | GET | `/carts/784` | Негативная проверка — несуществующая корзина (ожидается 404) |
 
-Каждый тест содержит проверки статус-кода и структуры ответа.
+
 
 ## Быстрый старт
 
-# Клонируйте репозиторий
+### Клонируйте репозиторий
 git clone https://github.com/your-username/dummyjson-tests.git
 cd dummyjson-tests
 
-# Запуск тестов с помощью скиптов
+### Запуск тестов с помощью скиптов
 
-# Windows
+### Windows
 .\scripts\run-tests.ps1
 
-# Linux/macOS
+### Linux/macOS
 ./scripts/run-tests.sh
 
-# Запуск тестов newman run
+### Запуск тестов newman run
 newman run collections/DummyJSON.postman_collection.json \
   -e environments/DummyJSON.postman_environment.json \
   --reporters cli,html \
