@@ -2,7 +2,7 @@
 node_modules/
 npm-debug.log
 help.txt
-# Postman exports (опционально, если не хотите хранить)
+# Postman exports
 # *.postman_collection.json
 # *.postman_environment.json
 
