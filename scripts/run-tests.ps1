@@ -1,21 +1,16 @@
-# Скрипт для запуска тестов DummyJSON (PowerShell)
-Write-Host "Запуск тестов DummyJSON API" -ForegroundColor Cyan
+# Устанавливаем кодировку вывода в UTF-8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
 
-# Создаём папку для отчётов, если её нет
-New-Item -ItemType Directory -Force -Path "../reports" | Out-Null
+Write-Host "ZAPUSK TESTOV DummyJSON API..." -ForegroundColor Cyan
 
-# Запускаем Newman
-newman run ../collections/DummyJSON.postman_collection.json `
-  -e ../environments/DummyJSON.postman_environment.json `
-  --reporters cli,html `
-  --reporter-html-export ../reports/newman-report.html
+New-Item -ItemType Directory -Force -Path ".\reports" | Out-Null
 
-# Проверяем код возврата
+newman run .\collections\DummyJSON.postman_collection.json -e .\environments\DummyJSON.postman_environment.json --reporters cli
+
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "Все тесты пройдены успешно!" -ForegroundColor Green
-    Write-Host "Отчёт сохранён в reports/newman-report.html" -ForegroundColor Yellow
+    Write-Host "Vse Testi Proideni Uspeschno!" -ForegroundColor Green
 } else {
-    Write-Host "Некоторые тесты не пройдены." -ForegroundColor Red
-    Write-Host "Отчёт сохранён в reports/newman-report.html" -ForegroundColor Yellow
+    Write-Host "Nekotorie Testi Ne Proideni." -ForegroundColor Red
     exit $LASTEXITCODE
 }

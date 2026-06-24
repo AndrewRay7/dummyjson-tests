@@ -21,7 +21,7 @@
               "});\r",
               "\r",
               "// Проверка 2: в ответе есть accessToken и он не пустой\r",
-              "pm.test(\"В ответе есть accessToken и он не пустой\", function () {\r",
+              "pm.test(\"В ответе есть accessToken и он не пустой, accessToken сохранен в переменную окружения\", function () {\r",
               "    const jsonData = pm.response.json();\r",
               "    pm.expect(jsonData).to.have.property('accessToken');\r",
               "    pm.expect(jsonData.accessToken).to.not.be.empty;\r",
@@ -49,6 +49,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [
           {
@@ -93,7 +103,7 @@
               "});\r",
               "\r",
               "// Проверка 2: сообщение об ошибке содержит \"Invalid credentials\" неверный пароль\r",
-              "pm.test(\"Сообщение об ошибке содержит Invalid credentials (неверный пароль)\", function () {\r",
+              "pm.test(\"В ответе вернулось сообщение об ошибке: Invalid credentials (Из-за неверного пароля)\", function () {\r",
               "    const jsonData = pm.response.json();\r",
               "    pm.expect(jsonData).to.have.property('message');\r",
               "    pm.expect(jsonData.message).to.include('Invalid credentials');\r",
@@ -106,6 +116,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [
           {
@@ -149,13 +169,17 @@
               "});\r",
               "\r",
               "// Проверка 2: пользователь имеет ожидаемые поля (id, username)\r",
-              "pm.test(\"Корректные данные пользователя\", function () {\r",
+              "pm.test(\"Корректные данные пользователя(ответ вернул id и username emilys) id этого пользователя добавоено в переменную окружения\", function () {\r",
               "    const jsonData = pm.response.json();\r",
               "    pm.expect(jsonData).to.have.property('id');\r",
               "    pm.expect(jsonData).to.have.property('username');\r",
               "    pm.expect(jsonData.id).to.eql(1);  // ожидается что id=1 для emilys\r",
               "    pm.expect(jsonData.username).to.eql('emilys');\r",
-              "});"
+              "});\r",
+              "\r",
+              "// Извлекаем id пользователя из ответа и сохраняем его в переменную окружения\r",
+              "const jsonData = pm.response.json();\r",
+              "pm.environment.set(\"userid\", jsonData.id);"
             ],
             "type": "text/javascript",
             "packages": {},
@@ -164,6 +188,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -203,7 +237,7 @@
               "});\r",
               "\r",
               "// Проверка 2: получение текущего пользователя (в ответе нет токена авторизации)\r",
-              "pm.test(\"Получен текущий пользователь (в ответе нет токена)\", function () {\r",
+              "pm.test(\"Получен текущий пользователь со всей информацией кроме accessToken\", function () {\r",
               "    const jsonData = pm.response.json();\r",
               "    const expectedUserId = pm.environment.get(\"userid\");\r",
               "    pm.expect(Number(jsonData.id)).to.eql(Number(expectedUserId));\r",
@@ -220,7 +254,14 @@
       ],
       "request": {
         "auth": {
-          "type": "noauth"
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
         },
         "method": "GET",
         "header": [],
@@ -249,8 +290,8 @@
               "    pm.response.to.have.status(200);\r",
               "})\r",
               "\r",
-              "// Проверка 2: ответ содержит массив carts, и он не пустой\r",
-              "pm.test(\"Ответ содержит массив carts, и он не пустой\", function () {\r",
+              "// Проверка 2: ответ содержит массив товаров в корзине, она не пустая\r",
+              "pm.test(\"Ответ содержит массив товаров в корзине, она не пустая. id корзины сохраняется в переменную окружения\", function () {\r",
               "    const jsonData = pm.response.json();\r",
               "    pm.expect(jsonData).to.have.property('carts');\r",
               "    pm.expect(jsonData.carts).to.be.an('array');\r",
@@ -270,6 +311,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -313,6 +364,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -351,9 +412,26 @@
             "packages": {},
             "requests": {}
           }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "packages": {},
+            "type": "text/javascript"
+          }
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [],
         "body": {
@@ -404,6 +482,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "PUT",
         "header": [],
         "body": {
@@ -441,7 +529,7 @@
               "});\r",
               "\r",
               "// Проверка 2: ответ содержит признак успешного удаления (например, isDeleted: true)\r",
-              "pm.test(\"Подтверждение удаления корзины\", function () {\r",
+              "pm.test(\"Подтверждение удаления корзины isDeleted: true\", function () {\r",
               "    const jsonData = pm.response.json();\r",
               "    pm.expect(jsonData).to.have.property('isDeleted');\r",
               "    pm.expect(jsonData.isDeleted).to.eql(true);\r",
@@ -454,6 +542,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "DELETE",
         "header": [],
         "url": {
@@ -495,6 +593,16 @@
         }
       ],
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
