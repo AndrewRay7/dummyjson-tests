@@ -1,0 +1,9 @@
+запуск тестов и формирование html отчета
+
+newman run collections/DummyJSON.postman_collection.json -e environments/DummyJSON.postman_environment.json -r html --reporter-html-export reports/newman-report.html
+
+# Linux/macOS
+./scripts/run-tests.sh
+
+# Windows
+.\scripts\run-tests.ps1
