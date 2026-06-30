@@ -61,7 +61,7 @@ cd dummyjson-tests
 ### Запуск тестов с формированием html отчета (сформируется html отчет в папке reports)
 newman run collections/DummyJSON.postman_collection.json -e environments/DummyJSON.postman_environment.json -r html --reporter-html-export reports/newman-report.html
 
-## Инструменты которые использовал для задания
+## Инструменты которые использовал
 POSTMAN, VScode, JS, NodeJS, Newman, PowerSchell, Linux Ubuntu
 
 Делал авотесты и коллекцию в POSTMAN поэтому выбрал связку JavaScript и Newman
